@@ -2,6 +2,8 @@ package com.mohit.UserProvisioning.Entity;
 
 import java.util.Date;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
@@ -28,10 +30,12 @@ public class UserRoleAssignment {
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Role role;
 
 	@DateTimeFormat(pattern = "dd-MM-yyyy")

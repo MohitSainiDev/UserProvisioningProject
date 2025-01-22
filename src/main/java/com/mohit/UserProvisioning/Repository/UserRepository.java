@@ -6,4 +6,6 @@ import com.mohit.UserProvisioning.Entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+	boolean existsByEmail(String email);
+
 }

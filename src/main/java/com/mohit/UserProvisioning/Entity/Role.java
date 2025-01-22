@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,11 +25,11 @@ public class Role {
 	private Long id;
 
 	@Column(nullable = false, unique = true)
+	@NotBlank
 	private String name;
 
+	@NotBlank
 	private String description;
 
-	public Role(Long roleId) {
-		// TODO Auto-generated constructor stub
-	}
+
 }

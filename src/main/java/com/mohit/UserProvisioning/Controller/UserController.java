@@ -3,6 +3,7 @@ package com.mohit.UserProvisioning.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mohit.UserProvisioning.Entity.User;
 import com.mohit.UserProvisioning.Service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -22,27 +25,28 @@ public class UserController {
 	UserService userService;
 
 	@PostMapping()
-	public User createUser(@RequestBody User user) {
+	public ResponseEntity<String> createUser(@Valid @RequestBody User user) {
 		return userService.createUser(user);
+
 	}
 
 	@GetMapping()
-	public List<User> getAllUsers() {
+	public ResponseEntity<List<User>> getAllUsers() {
 		return userService.getAllUsers();
 	}
 
 	@GetMapping("/{id}")
-	public User getUserById(@PathVariable Long id) {
+	public ResponseEntity<?> getUserById(@PathVariable Long id) {
 		return userService.getUser(id);
 	}
 
 	@PutMapping("/{id}")
-	public User updateUserById(@PathVariable Long id, @RequestBody User user) {
+	public ResponseEntity<?> updateUserById(@PathVariable Long id, @Valid @RequestBody User user) {
 		return userService.updateUser(id, user);
 	}
 
 	@DeleteMapping("/{id}")
-	public void softDeleteUserById(@PathVariable Long id) {
-		userService.softDeleteUser(id);
+	public ResponseEntity<?> softDeleteUserById(@PathVariable Long id) {
+		return userService.softDeleteUser(id);
 	}
 }

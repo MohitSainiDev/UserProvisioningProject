@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,9 +28,11 @@ public class User {
 	private Long id;
 
 	@Column(nullable = false)
+	@NotBlank
 	private String name;
 
 	@Column(nullable = false, unique = true)
+	@NotBlank
 	private String email;
 
 	private boolean active;
@@ -37,18 +40,8 @@ public class User {
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date registrationDate;
 
-	public User(Long id) {
-		super();
-		this.id = id;
-	}
 
-//	public boolean isActive() {
-//		return isActive;
-//	}
-//
-//	public void setActive(boolean isActive) {
-//		this.isActive = isActive;
-//	}
+
 
 
 }
