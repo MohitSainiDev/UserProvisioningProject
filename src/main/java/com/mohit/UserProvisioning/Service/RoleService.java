@@ -11,13 +11,21 @@ import org.springframework.stereotype.Service;
 import com.mohit.UserProvisioning.Entity.Role;
 import com.mohit.UserProvisioning.Repository.RoleRepository;
 
+import jakarta.validation.Valid;
+
 @Service
 public class RoleService {
 
 	@Autowired
 	RoleRepository roleRepository;
 
-	public ResponseEntity<String> createRole(Role role) {
+	public ResponseEntity<String> createRole(@Valid Role role) {
+
+		Optional<Role> existingRole = roleRepository.findByName(role.getName());
+		if (existingRole.isPresent()) {
+			return new ResponseEntity<>("Role with name '" + role.getName() + "' already exists.", HttpStatus.CONFLICT);
+		}
+
 
 		roleRepository.save(role);
 		return new ResponseEntity<>("Role Created Successfully", HttpStatus.CREATED);
