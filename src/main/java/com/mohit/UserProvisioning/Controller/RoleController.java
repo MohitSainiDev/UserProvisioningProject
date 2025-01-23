@@ -28,7 +28,7 @@ public class RoleController {
 	private RoleService roleService;
 
 	@PostMapping
-	public ResponseEntity<String> createRole(@Valid @RequestBody Role role) {
+	public ResponseEntity<?> createRole(@Valid @RequestBody Role role) {
 		return roleService.createRole(role);
 
 	}

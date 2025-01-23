@@ -2,6 +2,7 @@ package com.mohit.UserProvisioning.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,12 @@ public class UserRoleAssignmentService {
 		Role role = roleRepository.findById(roleId).orElse(null);
 		if (role == null) {
 			return new ResponseEntity<>("Role with ID " + roleId + " not found.", HttpStatus.NOT_FOUND);
+		}
+
+		Optional<UserRoleAssignment> existingAssignment = usreRoleAssignmentRepository.findByUserIdAndRoleId(userId,
+				roleId);
+		if (existingAssignment.isPresent()) {
+			return new ResponseEntity<>("User is already assigned this role.", HttpStatus.CONFLICT);
 		}
 
 		UserRoleAssignment assignment = new UserRoleAssignment();

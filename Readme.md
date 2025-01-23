@@ -15,7 +15,9 @@ This is a Spring Boot application for managing users and their roles.
 
 ## Setup Instructions
 1. Extract the ZIP file.
-2. Import as existing maven  project in Eclipse or IntelliJ.  
+
+2. Import as existing maven  project in Eclipse or IntelliJ. 
+ 
 3.Update the application.properties file with your database configuration:
 
 properties:
@@ -29,3 +31,10 @@ spring.datasource.password=your_password
 5.The application will start on `http://localhost:8080`.
 
 6.Import the provided Postman collection to test the APIs.
+
+## Postman Collection
+- A Postman collection for testing the APIs is included in the `Postman` folder.
+- Import the `UserProvisioning.postman_collection.json` file into Postman to get started.
+
+## API Testing Screenshots
+Screenshots of some example API tests are included in the 'Postman' folder. 

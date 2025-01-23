@@ -22,7 +22,7 @@ public class RoleService {
 	@Autowired
 	RoleRepository roleRepository;
 
-	public ResponseEntity<String> createRole(@Valid Role role) {
+	public ResponseEntity<?> createRole(@Valid Role role) {
 
 		Optional<Role> existingRole = roleRepository.findByName(role.getName());
 		if (existingRole.isPresent()) {
@@ -30,8 +30,8 @@ public class RoleService {
 		}
 
 
-		roleRepository.save(role);
-		return new ResponseEntity<>("Role Created Successfully", HttpStatus.CREATED);
+		Role createdRole = roleRepository.save(role);
+		return new ResponseEntity<>(createdRole, HttpStatus.CREATED);
 	}
 
 	public ResponseEntity<List<Role>> getRoles() {

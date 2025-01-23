@@ -25,7 +25,7 @@ public class UserService {
 	public ResponseEntity<String> createUser(@RequestBody User user) {
 		Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
 		if (existingUser.isPresent()) {
-			return new ResponseEntity<>("Email" + user.getEmail() + " is already in use.", HttpStatus.CONFLICT);
+			return new ResponseEntity<>("Email '" + user.getEmail() + "' is already in use.", HttpStatus.CONFLICT);
 		}
 		user.setRegistrationDate(new Date(System.currentTimeMillis()));
 		user.setActive(true);

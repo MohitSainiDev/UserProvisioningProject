@@ -1,6 +1,7 @@
 package com.mohit.UserProvisioning.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,5 +14,7 @@ public interface UserRoleAssignmentRepository extends JpaRepository<UserRoleAssi
 	List<UserRoleAssignment> findByRoleId(Long roleId);
 
 	void deleteByUserId(Long id);
+
+	Optional<UserRoleAssignment> findByUserIdAndRoleId(Long userId, Long roleId);
 
 }
