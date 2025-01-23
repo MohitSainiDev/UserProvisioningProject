@@ -1,7 +1,5 @@
 package com.mohit.UserProvisioning.Controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +31,15 @@ public class UserController {
 	}
 
 	@GetMapping()
-	public ResponseEntity<List<User>> getAllUsers() {
+	public ResponseEntity<?> getAllUsers() {
 		return userService.getAllUsers();
+	}
+
+	@GetMapping("/search")
+	public ResponseEntity<?> searchUsers(@RequestParam(required = false) String name,
+			@RequestParam(required = false) String email) {
+		return userService.searchUsers(name, email);
+
 	}
 
 	@GetMapping("/paginated")

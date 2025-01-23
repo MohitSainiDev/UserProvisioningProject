@@ -25,7 +25,7 @@ public class UserService {
 	public ResponseEntity<String> createUser(@RequestBody User user) {
 		Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
 		if (existingUser.isPresent()) {
-			return new ResponseEntity<>("Email '" + user.getEmail() + "' is already in use.", HttpStatus.CONFLICT);
+			return new ResponseEntity<>("Email" + user.getEmail() + " is already in use.", HttpStatus.CONFLICT);
 		}
 		user.setRegistrationDate(new Date(System.currentTimeMillis()));
 		user.setActive(true);
@@ -33,10 +33,36 @@ public class UserService {
 		return new ResponseEntity<>("User Created Successfully", HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<List<User>> getAllUsers() {
+	public ResponseEntity<?> getAllUsers() {
 		List<User> list = userRepository.findAll();
+		if (list.isEmpty())
+			return new ResponseEntity<>("No users present", HttpStatus.NOT_FOUND);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
+
+	public ResponseEntity<?> searchUsers(String name, String email) {
+		if (name != null && email != null) {
+			List<User> list = userRepository.findByNameContainingAndEmailContaining(name, email);
+			if (list.isEmpty())
+				return new ResponseEntity<>("No users present", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(list, HttpStatus.OK);
+		} else if (name != null) {
+			List<User> list = userRepository.findByNameContaining(name);
+			if (list.isEmpty())
+				return new ResponseEntity<>("No users present", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(list, HttpStatus.OK);
+		} else if (email != null) {
+			List<User> list = userRepository.findByEmailContaining(email);
+			if (list.isEmpty())
+				return new ResponseEntity<>("No users present", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(list, HttpStatus.OK);
+		}
+		List<User> list = userRepository.findAll();
+		if (list.isEmpty())
+		return new ResponseEntity<>("No users present", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+
 
 	public ResponseEntity<Page<User>> getUsersWithPagination(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);

@@ -1,5 +1,6 @@
 package com.mohit.UserProvisioning.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -16,5 +17,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	Page<User> findAll(Pageable pageable);
 
 	Optional<User> findByEmail(String email);
+
+	List<User> findByNameContaining(String name);
+
+	List<User> findByEmailContaining(String email);
+
+	List<User> findByNameContainingAndEmailContaining(String name, String email);
 
 }
