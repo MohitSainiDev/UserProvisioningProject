@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,7 +23,10 @@ public class UserService {
 	private UserRepository userRepository;
 
 	public ResponseEntity<String> createUser(@RequestBody User user) {
-
+		Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+		if (existingUser.isPresent()) {
+			return new ResponseEntity<>("Email '" + user.getEmail() + "' is already in use.", HttpStatus.CONFLICT);
+		}
 		user.setRegistrationDate(new Date(System.currentTimeMillis()));
 		user.setActive(true);
 		userRepository.save(user);
@@ -30,6 +36,12 @@ public class UserService {
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> list = userRepository.findAll();
 		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+
+	public ResponseEntity<Page<User>> getUsersWithPagination(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		Page<User> usersPage = userRepository.findAll(pageable);
+		return new ResponseEntity<>(usersPage, HttpStatus.OK);
 	}
 
 	public ResponseEntity<?> getUser(Long id) {
@@ -61,6 +73,16 @@ public class UserService {
 			extractedUser.setActive(false);
 			userRepository.save(extractedUser);
 			return new ResponseEntity<>("Changed successfully", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("User not found with id:" + id, HttpStatus.NOT_FOUND);
+		}
+	}
+
+	public ResponseEntity<?> DeleteUser(Long id) {
+		Optional<User> userOptional = userRepository.findById(id);
+		if (userOptional.isPresent()) {
+			userRepository.deleteById(id);
+			return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>("User not found with id:" + id, HttpStatus.NOT_FOUND);
 		}

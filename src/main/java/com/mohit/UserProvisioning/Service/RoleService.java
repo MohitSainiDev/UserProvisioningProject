@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -35,6 +38,12 @@ public class RoleService {
 
 		List<Role> list=roleRepository.findAll();
 		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+
+	public ResponseEntity<Page<Role>> getRolesWithPagination(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Role> rolesPage = roleRepository.findAll(pageable);
+		return new ResponseEntity<>(rolesPage, HttpStatus.OK);
 	}
 
 	public ResponseEntity<?> getRoleById(Long id) {
