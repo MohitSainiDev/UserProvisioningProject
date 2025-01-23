@@ -26,7 +26,7 @@ spring.datasource.url=jdbc:mysql://localhost:3306/your_database
 spring.datasource.username=your_username
 spring.datasource.password=your_password
 
-4.Run the application as Java Application in IDE.
+4.Run the file "UserProvisioningApplication.java" at UserProvisioning/UserProvisioningApplication.java as Java Application in IDE.
 
 5.The application will start on `http://localhost:8080`.
 
